@@ -1,0 +1,8 @@
+{
+    "token" : "set your slack token",
+    "channels" : [
+        "channel1",
+        "channel2"
+    ],
+    "comment" : "出勤します"
+}
