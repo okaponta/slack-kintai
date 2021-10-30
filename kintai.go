@@ -66,7 +66,7 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 			params := slack.NewSearchParameters()
 			params.Sort = "timestamp"
 			params.Count = 1
-			query := "from:me in:" + channel.ChannelName
+			query := "from:me in:" + channel.ChannelName + " " + conf.Shukkin
 			fmt.Println(query)
 			response, err := c.SearchMessages(query, params)
 			fmt.Println(err)
