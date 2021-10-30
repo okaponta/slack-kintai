@@ -4,8 +4,8 @@ slackへの勤怠を自動化するツールです。
 
 - できること
   - 複数チャンネルへの出勤連絡
-- これから対応したい
   - 退勤連絡
+- これから対応したい
   - 退勤連絡を出勤したpostへのリプライ
   - 上記をチャンネル全体へも投稿
 
@@ -13,8 +13,10 @@ slackへの勤怠を自動化するツールです。
 - リポジトリをcloneする
 - `config.json`を編集する
   - slack tokenの取得などもここで対応
-- `go run shukkin.go`
-
+- 出勤
+  - `go run kintai.go shukkin`
+- 退勤
+  - `go run kintai.go taikin`
 # configuration
 
 - config.jsonを編集してください。
@@ -23,7 +25,9 @@ slackへの勤怠を自動化するツールです。
     - 取得方法は下の「slack token取得方法」にて記載
   - channels
     - 勤怠連絡をしたいチャンネル名を入力してください。
-  - comment
+  - shukkin
+    - 出勤時に投稿したいコメントを設定してください。
+  - taikin
     - 出勤時に投稿したいコメントを設定してください。
 
 # slack token取得方法

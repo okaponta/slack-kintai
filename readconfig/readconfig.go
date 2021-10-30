@@ -9,7 +9,8 @@ import (
 type Config struct {
 	Token    string
 	Channels []string
-	Comment  string
+	Shukkin  string
+	Taikin   string
 }
 
 func ReadConfig(filename string) (Config, error) {

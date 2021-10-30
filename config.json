@@ -4,5 +4,6 @@
         "#channel1",
         "#channel2"
     ],
-    "comment" : "出勤します"
+    "shukkin" : "出勤します",
+    "taikin" : "退勤します"
 }
