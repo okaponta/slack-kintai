@@ -18,9 +18,12 @@ func main() {
 	tkn := conf.Token
 	c := slack.New(tkn)
 
-	// MsgOptionText() の第二引数に true を設定すると特殊文字をエスケープする
-	_, _, err = c.PostMessage(conf.Channels[0], slack.MsgOptionText("Hello World", true))
-	if err != nil {
-		panic(err)
+	for _, channel := range conf.Channels {
+		// MsgOptionText() の第二引数に true を設定すると特殊文字をエスケープする
+		_, _, err = c.PostMessage(channel, slack.MsgOptionText("Hello World", true))
+		if err != nil {
+			panic(err)
+		}
 	}
+
 }
