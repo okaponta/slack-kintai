@@ -1,8 +1,16 @@
 {
     "token" : "set your slack token",
     "channels" : [
-        "#channel1",
-        "#channel2"
+        {
+            "channelName" : "#channel1",
+            "replyToShukkin":true,
+            "postToChannel":true
+        },
+        {
+            "channelName" : "#channel2",
+            "replyToShukkin":false,
+            "postToChannel":false
+        }
     ],
     "shukkin" : "出勤します",
     "taikin" : "退勤します"

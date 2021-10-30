@@ -8,9 +8,15 @@ import (
 
 type Config struct {
 	Token    string
-	Channels []string
+	Channels []Channel
 	Shukkin  string
 	Taikin   string
+}
+
+type Channel struct {
+	ChannelName    string
+	ReplyToShukkin bool
+	PostToChannel  bool
 }
 
 func ReadConfig(filename string) (Config, error) {
