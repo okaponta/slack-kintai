@@ -74,7 +74,16 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 			ts := response.Matches[0].Timestamp
 			opt1 := slack.MsgOptionText(conf.Taikin, true)
 			opt2 := slack.MsgOptionTS(ts)
-			_, _, err = c.PostMessage(channel.ChannelName, opt1, opt2)
+			opt3 := slack.MsgOptionAsUser(true)
+			if channel.PostToChannel {
+				opt4 := slack.MsgOptionBroadcast()
+				_, _, err = c.PostMessage(channel.ChannelName, opt1, opt2, opt3, opt4)
+				if err != nil {
+					panic(err)
+				}
+				continue
+			}
+			_, _, err = c.PostMessage(channel.ChannelName, opt1, opt2, opt3)
 			if err != nil {
 				panic(err)
 			}
