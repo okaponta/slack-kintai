@@ -9,21 +9,17 @@ import (
 )
 
 func main() {
-	fmt.Println("出勤！")
 	conf, err := readconfig.ReadConfig("./config.json")
 	if err != nil {
-		fmt.Println("error ")
+		fmt.Println("error")
 	}
-	fmt.Println(conf)
-	tkn := conf.Token
-	c := slack.New(tkn)
+	c := slack.New(conf.Token)
 
 	for _, channel := range conf.Channels {
-		// MsgOptionText() の第二引数に true を設定すると特殊文字をエスケープする
-		_, _, err = c.PostMessage(channel, slack.MsgOptionText("Hello World", true))
+		fmt.Println("channel:", channel)
+		_, _, err = c.PostMessage(channel, slack.MsgOptionText(conf.Comment, true))
 		if err != nil {
 			panic(err)
 		}
 	}
-
 }
