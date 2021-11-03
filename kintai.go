@@ -77,7 +77,7 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 }
 
 func simplePost(c *slack.Client, channelName, message string) {
-	post(c, channelName, slack.MsgOptionText(slack.NewPostMessageParameters().Parse, true))
+	post(c, channelName, slack.MsgOptionText(message, true))
 }
 
 func post(c *slack.Client, channelName string, options ...slack.MsgOption) {
