@@ -51,10 +51,7 @@ func shukkin(c *slack.Client, conf readconfig.Config) {
 	fmt.Println("post shukkin to slack")
 	for _, channel := range conf.Channels {
 		fmt.Println("channel:", channel.ChannelName)
-		_, _, err := c.PostMessage(channel.ChannelName, slack.MsgOptionText(conf.Shukkin, true))
-		if err != nil {
-			panic(err)
-		}
+		simplePost(c, channel.ChannelName, conf.Shukkin)
 	}
 }
 
@@ -67,10 +64,10 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 			params.Sort = "timestamp"
 			params.Count = 1
 			query := "from:me in:" + channel.ChannelName + " " + conf.Shukkin
-			fmt.Println(query)
 			response, err := c.SearchMessages(query, params)
-			fmt.Println(err)
-			fmt.Println(response)
+			if err != nil {
+				panic(err)
+			}
 			ts := response.Matches[0].Timestamp
 			opt1 := slack.MsgOptionText(conf.Taikin, true)
 			opt2 := slack.MsgOptionTS(ts)
@@ -89,9 +86,13 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 			}
 			continue
 		}
-		_, _, err := c.PostMessage(channel.ChannelName, slack.MsgOptionText(conf.Taikin, true))
-		if err != nil {
-			panic(err)
-		}
+		simplePost(c, channel.ChannelName, conf.Taikin)
+	}
+}
+
+func simplePost(c *slack.Client, channelName, message string) {
+	_, _, err := c.PostMessage(channelName, slack.MsgOptionText(slack.NewPostMessageParameters().Parse, true))
+	if err != nil {
+		panic(err)
 	}
 }
