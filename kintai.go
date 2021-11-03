@@ -60,30 +60,16 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 	for _, channel := range conf.Channels {
 		fmt.Println("channel:", channel.ChannelName)
 		if channel.ReplyToShukkin {
-			params := slack.NewSearchParameters()
-			params.Sort = "timestamp"
-			params.Count = 1
-			query := "from:me in:" + channel.ChannelName + " " + conf.Shukkin
-			response, err := c.SearchMessages(query, params)
-			if err != nil {
-				panic(err)
-			}
-			ts := response.Matches[0].Timestamp
+			ts := searchShukkinTimestamp(c, channel.ChannelName, conf.Shukkin)
 			opt1 := slack.MsgOptionText(conf.Taikin, true)
 			opt2 := slack.MsgOptionTS(ts)
 			opt3 := slack.MsgOptionAsUser(true)
 			if channel.PostToChannel {
 				opt4 := slack.MsgOptionBroadcast()
-				_, _, err = c.PostMessage(channel.ChannelName, opt1, opt2, opt3, opt4)
-				if err != nil {
-					panic(err)
-				}
+				post(c, channel.ChannelName, opt1, opt2, opt3, opt4)
 				continue
 			}
-			_, _, err = c.PostMessage(channel.ChannelName, opt1, opt2, opt3)
-			if err != nil {
-				panic(err)
-			}
+			post(c, channel.ChannelName, opt1, opt2, opt3)
 			continue
 		}
 		simplePost(c, channel.ChannelName, conf.Taikin)
@@ -91,8 +77,24 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 }
 
 func simplePost(c *slack.Client, channelName, message string) {
-	_, _, err := c.PostMessage(channelName, slack.MsgOptionText(slack.NewPostMessageParameters().Parse, true))
+	post(c, channelName, slack.MsgOptionText(slack.NewPostMessageParameters().Parse, true))
+}
+
+func post(c *slack.Client, channelName string, options ...slack.MsgOption) {
+	_, _, err := c.PostMessage(channelName, options...)
 	if err != nil {
 		panic(err)
 	}
+}
+
+func searchShukkinTimestamp(c *slack.Client, channelName, shukkinMessage string) string {
+	params := slack.NewSearchParameters()
+	params.Sort = "timestamp"
+	params.Count = 1
+	query := "from:me in:" + channelName + " " + shukkinMessage
+	response, err := c.SearchMessages(query, params)
+	if err != nil {
+		panic(err)
+	}
+	return response.Matches[0].Timestamp
 }
