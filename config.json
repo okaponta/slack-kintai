@@ -12,7 +12,6 @@
             "postToChannel": false
         }
     ],
-    "postAsUser": true,
     "shukkin": "出勤します",
     "taikin": "退勤します"
 }
