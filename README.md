@@ -21,7 +21,7 @@ slackへの勤怠を自動化するツールです。
 
 - config.jsonを編集してください。
   - token
-    - slack tokenを設定してください。
+    - slack tokenを設定してください。(User Token)
     - 取得方法は下の「slack token取得方法」にて記載
   - channels
     - channelName
