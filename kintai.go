@@ -51,7 +51,7 @@ func shukkin(c *slack.Client, conf readconfig.Config) {
 	fmt.Println("post shukkin to slack")
 	for _, channel := range conf.Channels {
 		fmt.Println("channel:", channel.ChannelName)
-		simplePost(c, channel.ChannelName, conf.Shukkin)
+		post(c, channel.ChannelName, slack.MsgOptionText(conf.Shukkin, true))
 	}
 }
 
@@ -59,25 +59,18 @@ func taikin(c *slack.Client, conf readconfig.Config) {
 	fmt.Println("post taikin to slack")
 	for _, channel := range conf.Channels {
 		fmt.Println("channel:", channel.ChannelName)
+		options := make([]slack.MsgOption, 0, 4)
+		options = append(options, slack.MsgOptionText(conf.Taikin, true))
 		if channel.ReplyToShukkin {
 			ts := searchShukkinTimestamp(c, channel.ChannelName, conf.Shukkin)
-			opt1 := slack.MsgOptionText(conf.Taikin, true)
-			opt2 := slack.MsgOptionTS(ts)
-			opt3 := slack.MsgOptionAsUser(true)
+			options = append(options,
+				slack.MsgOptionTS(ts))
 			if channel.PostToChannel {
-				opt4 := slack.MsgOptionBroadcast()
-				post(c, channel.ChannelName, opt1, opt2, opt3, opt4)
-				continue
+				options = append(options, slack.MsgOptionBroadcast())
 			}
-			post(c, channel.ChannelName, opt1, opt2, opt3)
-			continue
 		}
-		simplePost(c, channel.ChannelName, conf.Taikin)
+		post(c, channel.ChannelName, options...)
 	}
-}
-
-func simplePost(c *slack.Client, channelName, message string) {
-	post(c, channelName, slack.MsgOptionText(message, true))
 }
 
 func post(c *slack.Client, channelName string, options ...slack.MsgOption) {
