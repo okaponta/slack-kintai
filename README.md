@@ -9,17 +9,24 @@ slackへの勤怠を自動化するツールです。
   - 上記をチャンネル全体へも投稿
     - ただし、slack-apiの制約でユーザーがこの場合だけアプリになってしまう
 
-# 実行方法
-- リポジトリをcloneする
-- `config.json`を編集する
+# Install
+- `go install github.com/okaponta/slack-kintai@latest`
+- `kintai-config.json`を編集する
   - slack tokenの取得などもここで対応
-- 出勤
-  - `go run kintai.go shukkin`
-- 退勤
-  - `go run kintai.go taikin`
-# configuration
 
-- config.jsonを編集してください。
+# Usage
+- 出勤
+  - `slack-kintai shukkin`
+- 退勤
+  - `slack-kintai taikin`
+- 実行ディレクトリに`kintai-config.json`が無いと実行できないので注意!!
+  - `.zshrc`に以下設定をすると便利です。
+    - `alias shukkin='pushd path/to/kintai-config.json;slack-kintai shukkin;popd'`
+    - `alias taikin='pushd path/to/kintai-config.json;slack-kintai shukkin;popd'`
+
+# Configuration
+
+- [kintai-config.json](./kintai-config.json)を編集してください。
   - token
     - slack tokenを設定してください。(User Token)
     - 取得方法は下の「slack token取得方法」にて記載
