@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 
-	conf, err := readconfig.ReadConfig("./config.json")
+	conf, err := readconfig.ReadConfig("./kintai-config.json")
 	if err != nil {
 		fmt.Println("configuration error")
 	}
