@@ -1,4 +1,4 @@
-module slack-kintai
+module github.com/okaponta/slack-kintai
 
 go 1.17
 

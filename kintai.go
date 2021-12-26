@@ -6,7 +6,7 @@ import (
 
 	"github.com/slack-go/slack"
 
-	"slack-kintai/readconfig"
+	"github.com/okaponta/slack-kintai/readconfig"
 )
 
 func main() {
